@@ -5,6 +5,8 @@ metadata:
   name: postgres-pvc
 
 spec:
+  storageClassName: ""
+
   accessModes:
     - ReadWriteOnce
 
