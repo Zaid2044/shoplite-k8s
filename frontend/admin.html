@@ -6,103 +6,373 @@
     <title>Admin Panel</title>
 
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f1ed 0%, #eef5f0 100%);
+            color: #2d3436;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
         nav {
-            background: #111827;
-            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 60px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(200, 180, 170, 0.2);
+        }
+
+        nav h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #8b9d83 0%, #b08968 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .container {
-            padding: 40px;
+            padding: 40px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .login-box,
+        /* Login Box */
+        .login-box {
+            max-width: 420px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            color: #2d3436;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-box > p {
+            color: #6b7280;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        /* Admin Panel */
         .admin-panel {
-            max-width: 500px;
-            margin: auto;
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
+            display: none;
+        }
+
+        .panel-header {
+            margin-bottom: 40px;
+        }
+
+        .panel-header h2 {
+            font-size: 32px;
+            color: #2d3436;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        /* Form Section */
+        .add-product-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .add-product-section h3 {
+            font-size: 18px;
+            color: #2d3436;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8b9d83;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 157, 131, 0.1);
+        }
+
+        input::placeholder {
+            color: #9ca3af;
         }
 
         button {
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .login-btn,
         .add-btn {
             width: 100%;
-            background: #38bdf8;
-            color: black;
+            background: linear-gradient(135deg, #8b9d83 0%, #a8b59e 100%);
+            color: white;
+            padding: 14px;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(139, 157, 131, 0.2);
         }
 
-        .products {
-            margin-top: 40px;
+        .add-btn:hover {
+            background: linear-gradient(135deg, #7a8c72 0%, #97a48d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 157, 131, 0.3);
         }
 
-        .product {
-            background: #111827;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+        .add-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Products Table */
+        .products-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .products-header {
+            padding: 24px 32px;
+            border-bottom: 2px solid #f0ebe6;
+        }
+
+        .products-header h3 {
+            font-size: 18px;
+            color: #2d3436;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        th {
+            padding: 16px 32px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #6b7280;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 18px 32px;
+            border-bottom: 1px solid #f0ebe6;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .product-price {
+            color: #b08968;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .product-stock {
+            color: #6b7280;
+            font-weight: 500;
         }
 
         .controls {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
-        .controls button {
-            flex: 1;
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
         }
 
-        .plus {
-            background: #22c55e;
+        .btn-increase {
+            background: #d1f3d1;
+            color: #15803d;
         }
 
-        .minus {
-            background: #f59e0b;
+        .btn-increase:hover {
+            background: #bbf0d8;
+            transform: translateY(-1px);
         }
 
-        .delete {
-            background: #ef4444;
+        .btn-decrease {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .btn-decrease:hover {
+            background: #fde68a;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #fecaca;
+            transform: translateY(-1px);
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8b9d83 0%, #a8b59e 100%);
             color: white;
+            padding: 14px;
+            font-size: 15px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(139, 157, 131, 0.2);
         }
 
-        #admin-panel {
-            display: none;
+        .login-btn:hover {
+            background: linear-gradient(135deg, #7a8c72 0%, #97a48d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 157, 131, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 32px;
+            color: #9ca3af;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 20px;
+            }
+
+            nav h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .login-box {
+                max-width: 100%;
+                margin: 40px auto;
+                padding: 24px;
+            }
+
+            .add-product-section {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-header {
+                padding: 16px 20px;
+            }
+
+            th, td {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+
+            th {
+                font-size: 12px;
+            }
+
+            .controls {
+                gap: 6px;
+            }
+
+            .btn-small {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <h1>Admin Panel</h1>
+        <h1>Admin Dashboard</h1>
     </nav>
 
     <div class="container">
 
+        <!-- Login Box -->
         <div class="login-box" id="login-box">
             <h2>Admin Login</h2>
+            <p>Enter your credentials to access the dashboard</p>
 
             <input
                 type="text"
@@ -116,50 +386,79 @@
                 placeholder="Password"
             >
 
-            <button
-                class="login-btn"
-                onclick="login()"
-            >
-                Login
+            <button class="login-btn" onclick="login()">
+                Sign In
             </button>
         </div>
 
+        <!-- Admin Panel -->
         <div class="admin-panel" id="admin-panel">
 
-            <h2>Add Product</h2>
+            <div class="panel-header">
+                <h2>Products Management</h2>
+            </div>
 
-            <input
-                type="text"
-                id="name"
-                placeholder="Product Name"
-            >
+            <!-- Add Product Section -->
+            <div class="add-product-section">
+                <h3>Add New Product</h3>
 
-            <input
-                type="number"
-                id="price"
-                placeholder="Price"
-            >
+                <div class="form-grid">
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Product Name"
+                    >
 
-            <input
-                type="text"
-                id="image"
-                placeholder="Image URL"
-            >
+                    <input
+                        type="number"
+                        id="price"
+                        placeholder="Price (₹)"
+                    >
 
-            <input
-                type="number"
-                id="quantity"
-                placeholder="Quantity"
-            >
+                    <input
+                        type="text"
+                        id="image"
+                        placeholder="Image URL"
+                    >
 
-            <button
-                class="add-btn"
-                onclick="addProduct()"
-            >
-                Add Product
-            </button>
+                    <input
+                        type="number"
+                        id="quantity"
+                        placeholder="Stock Quantity"
+                    >
+                </div>
 
-            <div class="products" id="products"></div>
+                <button class="add-btn" onclick="addProduct()">
+                    Add Product
+                </button>
+            </div>
+
+            <!-- Products Table -->
+            <div class="products-section">
+                <div class="products-header">
+                    <h3>All Products</h3>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 40px;">
+                                    <p style="color: #9ca3af;">Loading products...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
         </div>
 
@@ -167,22 +466,12 @@
 
     <script>
         function login() {
-            const username =
-                document.getElementById("username").value
+            const username = document.getElementById("username").value
+            const password = document.getElementById("password").value
 
-            const password =
-                document.getElementById("password").value
-
-            if (
-                username === "admin" &&
-                password === "admin"
-            ) {
-                document.getElementById("login-box")
-                    .style.display = "none"
-
-                document.getElementById("admin-panel")
-                    .style.display = "block"
-
+            if (username === "admin" && password === "admin") {
+                document.getElementById("login-box").style.display = "none"
+                document.getElementById("admin-panel").style.display = "block"
                 loadProducts()
             }
             else {
@@ -191,122 +480,112 @@
         }
 
         async function loadProducts() {
-            const response = await fetch(
-                "http://localhost:5000/api/products"
-            )
-
+            const response = await fetch("http://localhost:5000/api/products")
             const products = await response.json()
-
-            const container =
-                document.getElementById("products")
+            const container = document.getElementById("products")
 
             container.innerHTML = ""
 
+            if (products.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px;">
+                            <p style="color: #9ca3af;">No products yet. Add your first product above.</p>
+                        </td>
+                    </tr>
+                `
+                return
+            }
+
             products.forEach(product => {
-                const div = document.createElement("div")
+                const row = document.createElement("tr")
 
-                div.className = "product"
-
-                div.innerHTML = `
-                    <h3>${product.name}</h3>
-
-                    <p>₹${product.price}</p>
-
-                    <p>Stock: ${product.quantity}</p>
-
-                    <div class="controls">
-
-                        <button
-                            class="plus"
-                            onclick="increase(${product.id})"
-                        >
-                            +
-                        </button>
-
-                        <button
-                            class="minus"
-                            onclick="decrease(${product.id})"
-                        >
-                            -
-                        </button>
-
-                        <button
-                            class="delete"
-                            onclick="deleteProduct(${product.id})"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
+                row.innerHTML = `
+                    <td class="product-name">${product.name}</td>
+                    <td class="product-price">₹${product.price}</td>
+                    <td class="product-stock">${product.quantity} units</td>
+                    <td>
+                        <div class="controls">
+                            <button
+                                class="btn-small btn-increase"
+                                onclick="increase(${product.id})"
+                                title="Increase Stock"
+                            >
+                                + Add
+                            </button>
+                            <button
+                                class="btn-small btn-decrease"
+                                onclick="decrease(${product.id})"
+                                title="Decrease Stock"
+                            >
+                                - Remove
+                            </button>
+                            <button
+                                class="btn-small btn-delete"
+                                onclick="deleteProduct(${product.id})"
+                                title="Delete Product"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </td>
                 `
 
-                container.appendChild(div)
+                container.appendChild(row)
             })
         }
 
         async function addProduct() {
             const product = {
-                name:
-                    document.getElementById("name").value,
-
-                price:
-                    document.getElementById("price").value,
-
-                image:
-                    document.getElementById("image").value,
-
-                quantity:
-                    document.getElementById("quantity").value
+                name: document.getElementById("name").value,
+                price: document.getElementById("price").value,
+                image: document.getElementById("image").value,
+                quantity: document.getElementById("quantity").value
             }
 
-            await fetch(
-                "http://localhost:5000/api/products",
-                {
-                    method: "POST",
+            if (!product.name || !product.price || !product.image || !product.quantity) {
+                alert("Please fill in all fields")
+                return
+            }
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+            await fetch("http://localhost:5000/api/products", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(product)
+            })
 
-                    body: JSON.stringify(product)
-                }
-            )
+            // Clear form
+            document.getElementById("name").value = ""
+            document.getElementById("price").value = ""
+            document.getElementById("image").value = ""
+            document.getElementById("quantity").value = ""
 
             loadProducts()
         }
 
         async function increase(id) {
-            await fetch(
-                `http://localhost:5000/api/products/${id}/increase`,
-                {
-                    method: "PUT"
-                }
-            )
-
+            await fetch(`http://localhost:5000/api/products/${id}/increase`, {
+                method: "PUT"
+            })
             loadProducts()
         }
 
         async function decrease(id) {
-            await fetch(
-                `http://localhost:5000/api/products/${id}/decrease`,
-                {
-                    method: "PUT"
-                }
-            )
-
+            await fetch(`http://localhost:5000/api/products/${id}/decrease`, {
+                method: "PUT"
+            })
             loadProducts()
         }
 
         async function deleteProduct(id) {
-            await fetch(
-                `http://localhost:5000/api/products/${id}`,
-                {
+            if (confirm("Are you sure you want to delete this product?")) {
+                await fetch(`http://localhost:5000/api/products/${id}`, {
                     method: "DELETE"
-                }
-            )
-
-            loadProducts()
+                })
+                loadProducts()
+            }
         }
     </script>
 
