@@ -18,6 +18,10 @@ Routes:
 /cart   -> Cart Page
 /admin  -> Admin Dashboard
 /api    -> Flask Backend API
+
+
+admin-username: admin
+admin-password: admin
 ```
 
 ## Description
