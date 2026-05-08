@@ -239,7 +239,7 @@
 
     <nav>
         <div class="logo">ShopLite</div>
-        <a href="/cart.html" class="cart-btn">🛒</a>
+        <a href="/cart" class="cart-btn">🛒</a>
     </nav>
 
     <section class="hero">
