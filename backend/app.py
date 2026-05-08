@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 conn = psycopg2.connect(
-    host="localhost",
+    host="postgres-service",
     database="shoplite",
     user="postgres",
     password="admin123"
