@@ -317,7 +317,7 @@
 
     <nav>
         <h1>Your Cart</h1>
-        <a href="home.html">
+        <a href="/home.html">
             ← Back To Shopping
         </a>
     </nav>
@@ -344,7 +344,7 @@
 
     <script>
         async function loadCart() {
-            const response = await fetch("http://localhost:5000/api/cart")
+            const response = await fetch("/api/cart")
 
             const cart = await response.json()
 
@@ -359,7 +359,7 @@
                 cartItemsWrapper.innerHTML = `
                     <div class="empty-cart">
                         <p>🛒 Your cart is empty</p>
-                        <a href="home.html" style="color: #8b9d83; font-weight: 600;">Continue Shopping</a>
+                        <a href="/home.html" style="color: #8b9d83; font-weight: 600;">Continue Shopping</a>
                     </div>
                 `
                 total.innerHTML = ""
@@ -415,7 +415,7 @@
         }
 
         async function removeItem(index) {
-            await fetch(`http://localhost:5000/api/cart/${index}`, {
+            await fetch(`/api/cart/${index}`, {
                 method: "DELETE"
             })
 
@@ -423,7 +423,7 @@
         }
 
         async function checkout() {
-            await fetch("http://localhost:5000/api/checkout", {
+            await fetch("/api/checkout", {
                 method: "POST"
             })
 

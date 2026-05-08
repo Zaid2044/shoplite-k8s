@@ -480,7 +480,7 @@
         }
 
         async function loadProducts() {
-            const response = await fetch("http://localhost:5000/api/products")
+            const response = await fetch("/api/products")
             const products = await response.json()
             const container = document.getElementById("products")
 
@@ -548,7 +548,7 @@
                 return
             }
 
-            await fetch("http://localhost:5000/api/products", {
+            await fetch("/api/products", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -566,14 +566,14 @@
         }
 
         async function increase(id) {
-            await fetch(`http://localhost:5000/api/products/${id}/increase`, {
+            await fetch(`/api/products/${id}/increase`, {
                 method: "PUT"
             })
             loadProducts()
         }
 
         async function decrease(id) {
-            await fetch(`http://localhost:5000/api/products/${id}/decrease`, {
+            await fetch(`/api/products/${id}/decrease`, {
                 method: "PUT"
             })
             loadProducts()
@@ -581,7 +581,7 @@
 
         async function deleteProduct(id) {
             if (confirm("Are you sure you want to delete this product?")) {
-                await fetch(`http://localhost:5000/api/products/${id}`, {
+                await fetch(`/api/products/${id}`, {
                     method: "DELETE"
                 })
                 loadProducts()
