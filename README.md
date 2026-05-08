@@ -1,4 +1,24 @@
 # ShopLite K8s
+## Live Demo
+
+```text
+http://44.201.17.137/home
+```
+
+---
+
+## Website Routing
+
+The application uses NGINX Ingress and NGINX frontend routing.
+
+Routes:
+
+```text
+/home   -> Home Page
+/cart   -> Cart Page
+/admin  -> Admin Dashboard
+/api    -> Flask Backend API
+```
 
 ## Description
 
