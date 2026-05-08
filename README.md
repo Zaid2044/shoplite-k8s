@@ -1,11 +1,4 @@
 # ShopLite K8s
-## Live Demo
-
-```text
-http://44.201.17.137/home
-```
-
----
 
 ## Website Routing
 
@@ -17,11 +10,10 @@ Routes:
 /home   -> Home Page
 /cart   -> Cart Page
 /admin  -> Admin Dashboard
-/api    -> Flask Backend API
-
-
 admin-username: admin
 admin-password: admin
+
+/api    -> Flask Backend API
 ```
 
 ## Description
