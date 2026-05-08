@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        nav {
+            background: #111827;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            background: #1e293b;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .details {
+            flex: 1;
+        }
+
+        button {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .checkout-btn {
+            background: #38bdf8;
+            color: black;
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .total {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Cart</h1>
+
+        <a href="home.html">
+            ← Back To Home
+        </a>
+    </nav>
+
+    <div class="container">
+
+        <div id="cart-items"></div>
+
+        <div class="total" id="total"></div>
+
+        <button class="checkout-btn" onclick="checkout()">
+            Pay Now
+        </button>
+
+    </div>
+
+    <script>
+        async function loadCart() {
+            const response = await fetch("http://localhost:5000/api/cart")
+
+            const cart = await response.json()
+
+            const cartItems = document.getElementById("cart-items")
+
+            const total = document.getElementById("total")
+
+            cartItems.innerHTML = ""
+
+            let totalPrice = 0
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price
+
+                const div = document.createElement("div")
+
+                div.className = "cart-item"
+
+                div.innerHTML = `
+                    <img src="${item.image}" />
+
+                    <div class="details">
+                        <h2>${item.name}</h2>
+                        <p>₹${item.price}</p>
+                    </div>
+
+                    <button
+                        class="remove-btn"
+                        onclick="removeItem(${index})"
+                    >
+                        Remove
+                    </button>
+                `
+
+                cartItems.appendChild(div)
+            })
+
+            total.innerText = `Total: ₹${totalPrice}`
+        }
+
+        async function removeItem(index) {
+            await fetch(`http://localhost:5000/api/cart/${index}`, {
+                method: "DELETE"
+            })
+
+            loadCart()
+        }
+
+        async function checkout() {
+            await fetch("http://localhost:5000/api/checkout", {
+                method: "POST"
+            })
+
+            alert("Payment Successful")
+
+            loadCart()
+        }
+
+        loadCart()
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        nav {
+            background: #111827;
+            padding: 20px 40px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .login-box,
+        .admin-panel {
+            max-width: 500px;
+            margin: auto;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        button {
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-btn,
+        .add-btn {
+            width: 100%;
+            background: #38bdf8;
+            color: black;
+        }
+
+        .products {
+            margin-top: 40px;
+        }
+
+        .product {
+            background: #111827;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .controls button {
+            flex: 1;
+        }
+
+        .plus {
+            background: #22c55e;
+        }
+
+        .minus {
+            background: #f59e0b;
+        }
+
+        .delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        #admin-panel {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Admin Panel</h1>
+    </nav>
+
+    <div class="container">
+
+        <div class="login-box" id="login-box">
+            <h2>Admin Login</h2>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+            >
+
+            <button
+                class="login-btn"
+                onclick="login()"
+            >
+                Login
+            </button>
+        </div>
+
+        <div class="admin-panel" id="admin-panel">
+
+            <h2>Add Product</h2>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Product Name"
+            >
+
+            <input
+                type="number"
+                id="price"
+                placeholder="Price"
+            >
+
+            <input
+                type="text"
+                id="image"
+                placeholder="Image URL"
+            >
+
+            <input
+                type="number"
+                id="quantity"
+                placeholder="Quantity"
+            >
+
+            <button
+                class="add-btn"
+                onclick="addProduct()"
+            >
+                Add Product
+            </button>
+
+            <div class="products" id="products"></div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function login() {
+            const username =
+                document.getElementById("username").value
+
+            const password =
+                document.getElementById("password").value
+
+            if (
+                username === "admin" &&
+                password === "admin"
+            ) {
+                document.getElementById("login-box")
+                    .style.display = "none"
+
+                document.getElementById("admin-panel")
+                    .style.display = "block"
+
+                loadProducts()
+            }
+            else {
+                alert("Invalid credentials")
+            }
+        }
+
+        async function loadProducts() {
+            const response = await fetch(
+                "http://localhost:5000/api/products"
+            )
+
+            const products = await response.json()
+
+            const container =
+                document.getElementById("products")
+
+            container.innerHTML = ""
+
+            products.forEach(product => {
+                const div = document.createElement("div")
+
+                div.className = "product"
+
+                div.innerHTML = `
+                    <h3>${product.name}</h3>
+
+                    <p>₹${product.price}</p>
+
+                    <p>Stock: ${product.quantity}</p>
+
+                    <div class="controls">
+
+                        <button
+                            class="plus"
+                            onclick="increase(${product.id})"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            class="minus"
+                            onclick="decrease(${product.id})"
+                        >
+                            -
+                        </button>
+
+                        <button
+                            class="delete"
+                            onclick="deleteProduct(${product.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+                `
+
+                container.appendChild(div)
+            })
+        }
+
+        async function addProduct() {
+            const product = {
+                name:
+                    document.getElementById("name").value,
+
+                price:
+                    document.getElementById("price").value,
+
+                image:
+                    document.getElementById("image").value,
+
+                quantity:
+                    document.getElementById("quantity").value
+            }
+
+            await fetch(
+                "http://localhost:5000/api/products",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify(product)
+                }
+            )
+
+            loadProducts()
+        }
+
+        async function increase(id) {
+            await fetch(
+                `http://localhost:5000/api/products/${id}/increase`,
+                {
+                    method: "PUT"
+                }
+            )
+
+            loadProducts()
+        }
+
+        async function decrease(id) {
+            await fetch(
+                `http://localhost:5000/api/products/${id}/decrease`,
+                {
+                    method: "PUT"
+                }
+            )
+
+            loadProducts()
+        }
+
+        async function deleteProduct(id) {
+            await fetch(
+                `http://localhost:5000/api/products/${id}`,
+                {
+                    method: "DELETE"
+                }
+            )
+
+            loadProducts()
+        }
+    </script>
+
+</body>
+</html>
