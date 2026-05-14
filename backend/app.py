@@ -1,16 +1,43 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import psycopg2
+import time
 
 app = Flask(__name__)
 CORS(app)
 
-conn = psycopg2.connect(
-    host="postgres-service",
-    database="shoplite",
-    user="postgres",
-    password="admin123"
-)
+while True:
+    try:
+        conn = psycopg2.connect(
+            host="postgres-service",
+            database="shoplite",
+            user="postgres",
+            password="admin123"
+        )
+
+        cur = conn.cursor()
+
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS products (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255),
+            price INTEGER,
+            image VARCHAR(500),
+            quantity INTEGER
+        )
+        """)
+
+        conn.commit()
+
+        cur.close()
+
+        print("PostgreSQL connected successfully")
+
+        break
+
+    except Exception as e:
+        print("Waiting for PostgreSQL...", e)
+        time.sleep(5)
 
 cart = []
 
