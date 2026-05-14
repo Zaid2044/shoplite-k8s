@@ -22,7 +22,7 @@ while True:
             id SERIAL PRIMARY KEY,
             name VARCHAR(255),
             price INTEGER,
-            image VARCHAR(500),
+            image TEXT,
             quantity INTEGER
         )
         """)
